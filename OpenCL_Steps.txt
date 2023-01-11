@@ -1,0 +1,59 @@
+NAME:- RAJU RANJAN
+======OpenCL========OpenCL======OpenCL======OpenCL=======OpenCL========OpenCL=========OpenCL=========
+---------------------------------------------------------------------------
+Coding time:-
+---------------------------------------------------------------------------
+->make a bash file
+script.sh
+---------------------------------------------------------------------------
+ #!/bin/bash
+ #SBATCH --nodes=1
+ #SBATCH --job-name=demo
+ #SBATCH --time=1:30:00
+ #SBATCH --gres=gpu:1
+ #SBATCH --output=demo_%j_.out
+ #SBATCH --error=demo_%j_.err
+ nsys profile ./a.out
+ module load nvhpc/nvhpc/22.3
+ #export PGI_ACC_NOTIFY=5
+ # ./OpenAcc1 
+ #ncu -kernel-name mat_mat_mul --launch-skip 0 --launch-count 1 "./a.out"
+----------------------------------------------------------------------------
+1.write a code for openCL and save with <file_name>.c   .
+2.create a kernal in another file and save with .cl (extention) and load in main program.
+Example:- kernel.cl
+---------------------------------------------------------------------------
+__kernel void vecAdd(__global int* A, __global int* B, __global int* C)
+{
+    int gid = get_global_id(0);
+
+    C[gid] = A[gid] + B[gid]; //write operational code here.(this is for Add of two vectors)
+}
+---------------------------------------------------------------------------
+Excution time:-
+---------------------------------------------------------------------------
+1. load modules
+#module load gnu8/8.3.0
+#module load oneapi/init_opencl/2021.3.0
+#module load nvhpc/nvhpc/22.3
+2. To compilation
+#gcc <file_name>.c -lOpenCL -I/opt/ohpc/pub/hpc_sdk/Linux_x86_64/22.3/cuda/include -L/opt/ohpc/pub/hpc_sdk/Linux_x86_64/22.3/cuda/lib64
+#sbatch script.sh
+3. To Run
+#cat demo_<job_ID>_.out
+============================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
